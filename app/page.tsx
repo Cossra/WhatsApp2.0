@@ -21,18 +21,15 @@ export default function Home() {
           </span>
         </h1>
         <p className="text-center mb-2 text-base sm:text-lg text-gray-700 font-geist-sans">Your gateway to seamless communication</p>
+        <div className="flex justify-center w-full mt-6">
+          <Button className="px-6 py-8 text-sm font-bold rounded-lg bg-black text-white hover:bg-gray-800 transition-colors duration-200 shadow-md max-w-xs mx-auto mb-8">
+            Start Chatting for Free
+          </Button>
+        </div>
         <p className="text-center mb-8 text-sm sm:text-base text-gray-800 dark:text-gray-400 font-geist-sans max-w-lg mx-auto">
           A modern messaging and video conferencing platform designed for speed and clarity. Enjoy fast, crystal-clear video calls, instant messaging, and a seamless experience across all your devices.
         </p>
   <div className="flex flex-col w-full max-w-sm mx-auto">
-          {/* Show sign-in button only when signed out */}
-          <Unauthenticated>
-            <SignInButton mode="modal">
-              <Button className="px-6 py-8 text-sm font-medium rounded-lg bg-black text-white hover:bg-gray-800 transition-colors duration-200 shadow-md max-w-xs mx-auto mb-8">
-                Start Chatting for Free
-              </Button>
-            </SignInButton>
-          </Unauthenticated>
           {/* Social proof section */}
           <div className="mt-8 w-full">
             <div className="text-xs font-medium text-gray-400 text-center mb-2 tracking-wide uppercase">Trusted by thousands of users</div>

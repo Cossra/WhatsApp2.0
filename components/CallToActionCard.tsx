@@ -13,7 +13,7 @@ const CallToActionCard: React.FC<CallToActionCardProps> = ({ headline, descripti
     <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 text-center">{headline}</h3>
     <p className="text-base sm:text-lg text-gray-700 mb-6 text-center">{description}</p>
     <div className="w-full flex justify-center">
-      <Button className="px-6 py-8 text-sm font-medium rounded-lg bg-black text-white hover:bg-gray-800 transition-colors duration-200 shadow-md max-w-xs mb-2 flex items-center justify-center">{buttonText}</Button>
+      <Button className="px-6 py-8 text-sm font-bold rounded-lg bg-black text-white hover:bg-gray-800 transition-colors duration-200 shadow-md max-w-xs mb-2 flex items-center justify-center">{buttonText}</Button>
     </div>
     <div className="flex flex-col gap-2 mt-2 w-full items-center">
       {features.map((feature, idx) => (
