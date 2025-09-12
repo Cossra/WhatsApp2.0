@@ -13,7 +13,8 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
-function layout({ children }: { children: React.ReactNode }) {
+function layout({ children }: { children: 
+  React.ReactNode }) {
   return ( <UserSyncWrapper>
     <Chat client={streamClient} theme="messaging light">
       <SidebarProvider
