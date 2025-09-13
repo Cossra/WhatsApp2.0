@@ -24,12 +24,16 @@ function UserSearch({
   placeholder?: string;
   className?: string;
 }) {
-  const {searchTerm, setSearchTerm, searchResults, isLoading} = useUserSearch();
+  const {searchTerm, setSearchTerm, searchResults, 
+    isLoading } = 
+     useUserSearch();
 
     const { user } = useUser();
 
     // Filter out the current user from search results
-    const filteredResults = searchResults;
+    const filteredResults = searchResults.filter(
+      (searchUser) => searchUser.UserId !== user?.id
+    );
 
     const handleSelectUser = (user: (typeof searchResults)[0]) => {
       onSelectUser?.(user);

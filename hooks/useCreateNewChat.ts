@@ -67,6 +67,11 @@ export const useCreateNewChat = () => {
                     presence: true,
                 });
 
+                // Add logging here to verify channel type
+                // console.log("Channel type:", typeof channel);
+                // console.log("Channel constructor:", channel.constructor.name);
+                // console.log("Channel object:", channel);
+
                 return channel;
 
             } catch (error) {
