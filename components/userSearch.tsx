@@ -15,7 +15,15 @@ type UserSearchProps = {
   className?: string;
 };
 
-function UserSearch({ onSelectUser, placeholder = "Search users...", className }: UserSearchProps) {
+function UserSearch({
+  onSelectUser,
+  placeholder = "Search users...",
+  className,
+}:{
+  onSelectUser: (user: Doc<"users">) => void;
+  placeholder?: string;
+  className?: string;
+}) {
   const {searchTerm, setSearchTerm, searchResults, isLoading} = useUserSearch();
 
     const { user } = useUser();
@@ -23,8 +31,8 @@ function UserSearch({ onSelectUser, placeholder = "Search users...", className }
     // Filter out the current user from search results
     const filteredResults = searchResults;
 
-    const handleSelectUser = (user: (typeof filteredResults)[0]) => {
-      onSelectUser(user);
+    const handleSelectUser = (user: (typeof searchResults)[0]) => {
+      onSelectUser?.(user);
       setSearchTerm("");
     };
 
@@ -42,7 +50,7 @@ function UserSearch({ onSelectUser, placeholder = "Search users...", className }
           placeholder={placeholder}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full border border-gray-300 rounded-md p-2 pl-10"
+          className="text-base rounded-md pr-10 pl-10"
         />
         {searchTerm && (
           <button
@@ -60,12 +68,17 @@ function UserSearch({ onSelectUser, placeholder = "Search users...", className }
           {isLoading ? (
             <div className="p-4 text-center text-muted-foreground">
               <div className="flex items-center justify-center space-x-2">
-                <InlineSpinner />
+                <InlineSpinner size="small"/>
                 <span>Searching...</span>
               </div>
             </div>
-          ) : filteredResults.length > 0 ? (
-            <div className="py-2">users
+          ) : filteredResults.length === 0 ? (
+            <div className="p-4 text-center text-muted-foreground">
+              <UserIcon className="h-8 w-8 mb-2 mx-auto opacity-50" />
+              <p>No users found matching &quot;{searchTerm}&quot;</p>
+            </div>
+          ) : (
+            <div className="py-2">
               {filteredResults.map((user) => (
                 <button
                   key={user._id}
@@ -77,6 +90,7 @@ function UserSearch({ onSelectUser, placeholder = "Search users...", className }
                   )}
                 >
                   <div className="flex items-center space-x-3">
+                    {/* User Avatar */}
                     <div className="relative h-8 w-8">
                       <Image
                         src={user.imageUrl}
@@ -86,12 +100,15 @@ function UserSearch({ onSelectUser, placeholder = "Search users...", className }
                         className="h-10 w-10 rounded-full object-cover ring-2 ring-border"
                       />
                     </div>
+
+                    {/* User Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-2">
                         <p className="font-medium text-foreground turncate">
                           {user.name}
                         </p>
                       </div>
+
                       <div className="flex items-center space-x-1 mt-1">
                         <Mail className="h-3 w-3 text-muted-foreground"/>
                         <p className="text-sm text-muted-foreground truncate">
@@ -99,17 +116,14 @@ function UserSearch({ onSelectUser, placeholder = "Search users...", className }
                         </p>
                       </div>
                     </div>
+
+                    {/* Selection Indicator */}
                     <div className="flex-shrink-0">
                       <div className="h-2 w-2 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </div>
                   </div>
                 </button>
               ))}
-            </div>
-          ) : (
-            <div className="p-4 text-center text-muted-foreground">
-              <UserIcon className="h-8 w-8 mb-2 mx-auto opacity-50" />
-              <p>No users found matching &quot;{searchTerm}&quot;</p>
             </div>
           )}
         </div>

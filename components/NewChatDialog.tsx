@@ -13,6 +13,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { User } from "lucide-react";
+import UserSearch from "./userSearch";
 
 export function NewChatDialog( { children }: { children: React.ReactNode } ) {
     const [open, setOpen] = useState(false);
@@ -47,15 +49,22 @@ export function NewChatDialog( { children }: { children: React.ReactNode } ) {
         <DialogTrigger asChild>
           {children}
         </DialogTrigger>
-        <DialogContent>
+
+
+        <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
     <DialogHeader>
       <DialogTitle>Start a New Chat</DialogTitle>
       <DialogDescription>
         Search for users and start a conversation.
       </DialogDescription>
     </DialogHeader>
+
+      <div className="space-y-4">
+     {/* Search Component */}
+      <UserSearch onSelectUser={handleSelectUser} className="w-full" />
+      </div>
   </DialogContent>
             </Dialog>
-    )
+    );
 
 }

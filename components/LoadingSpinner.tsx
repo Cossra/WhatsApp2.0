@@ -1,9 +1,13 @@
 // InlineSpinner: compact spinner for inline loading (e.g., adding user to chat)
-export function InlineSpinner() {
+interface InlineSpinnerProps {
+  size?: string; // e.g. '1.25rem', '2rem', etc.
+}
+
+export function InlineSpinner({ size = '1.25rem' }: InlineSpinnerProps) {
   return (
     <span
       className="inline-block animate-spin rounded-full border-2 border-t-2 border-gradient-to-r from-pink-500 via-purple-500 to-blue-500 border-t-transparent align-middle"
-      style={{ width: '1.25rem', height: '1.25rem', minWidth: '1rem', minHeight: '1rem' }}
+      style={{ width: size, height: size, minWidth: '1rem', minHeight: '1rem' }}
     />
   );
 }
