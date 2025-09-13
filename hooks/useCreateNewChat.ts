@@ -41,7 +41,7 @@ export const useCreateNewChat = () => {
                 // Ensure channelId is always unique
                 const channelId = isGroupChat
                     ? `group-${Date.now()}`
-                    : `chat-${members.slice().sort().join('-')}`;
+                    : `chat-${members.slice().sort().join('-').slice(0, 50)}`; // limit length
 
                 const channelData: {
                     members: string[];
@@ -68,9 +68,9 @@ export const useCreateNewChat = () => {
                 });
 
                 // Add logging here to verify channel type
-                // console.log("Channel type:", typeof channel);
-                // console.log("Channel constructor:", channel.constructor.name);
-                // console.log("Channel object:", channel);
+                console.log("Channel type:", typeof channel);
+                console.log("Channel constructor:", channel.constructor.name);
+                console.log("Channel object:", channel);
 
                 return channel;
 

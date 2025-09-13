@@ -14,7 +14,6 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as functions_testStreamApiKey from "../functions/testStreamApiKey.js";
-import type * as functions_testUpsertUser from "../functions/testUpsertUser.js";
 import type * as functions_upsertStreamUser from "../functions/upsertStreamUser.js";
 import type * as users from "../users.js";
 
@@ -28,7 +27,6 @@ import type * as users from "../users.js";
  */
 declare const fullApi: ApiFromModules<{
   "functions/testStreamApiKey": typeof functions_testStreamApiKey;
-  "functions/testUpsertUser": typeof functions_testUpsertUser;
   "functions/upsertStreamUser": typeof functions_upsertStreamUser;
   users: typeof users;
 }>;

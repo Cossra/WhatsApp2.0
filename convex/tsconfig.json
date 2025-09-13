@@ -20,6 +20,6 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["./**/*"],
+  "include": ["./**/*", "../scripts/testUpsertUser.js"],
   "exclude": ["./_generated"]
 }
