@@ -30,8 +30,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       convex:
-        specifier: ^1.26.2
-        version: 1.26.2(@clerk/clerk-react@5.46.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+        specifier: ^1.27.0
+        version: 1.27.0(@clerk/clerk-react@5.46.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       lucide-react:
         specifier: ^0.543.0
         version: 0.543.0(react@19.1.0)
@@ -1384,8 +1384,8 @@ packages:
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
-  convex@1.26.2:
-    resolution: {integrity: sha512-QG3zvZ9GTTeeBS+N5PJj73TULHYu99eVSOI3KU2hMnB9q40fHxkMFJ+AYox+K81roTakciBvNTvGlhfz+M10fQ==}
+  convex@1.27.0:
+    resolution: {integrity: sha512-IHkqZX3GtY4nKFPTAR4mvWHHhDiQX9PM7EjpEv0pJWoMoq0On6oOL3iZ7Xz4Ls96dF7WJd4AjfitJsg2hUnLSQ==}
     engines: {node: '>=18.0.0', npm: '>=7.0.0'}
     hasBin: true
     peerDependencies:
@@ -4222,7 +4222,7 @@ snapshots:
 
   concat-map@0.0.1: {}
 
-  convex@1.26.2(@clerk/clerk-react@5.46.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
+  convex@1.27.0(@clerk/clerk-react@5.46.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
     dependencies:
       esbuild: 0.25.4
       jwt-decode: 4.0.0
