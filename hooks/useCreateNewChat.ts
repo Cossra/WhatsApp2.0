@@ -3,7 +3,7 @@ import type { Channel } from "stream-chat";
 
 export const useCreateNewChat = () => {
   return async ({
-    members,
+    members: rawMembers,
     createdBy,
     groupName,
   }: {
@@ -11,12 +11,28 @@ export const useCreateNewChat = () => {
     createdBy: string;
     groupName?: string;
   }): Promise<Channel> => {
+  // Securely verify users are active in Stream
+    const verifyUsers = async (ids: string[]) => {
+      const response = await streamClient.queryUsers({ id: { $in: ids } });
+      return response.users
+        .filter(user => !user.deleted_at)
+        .map(user => user.id);
+    };
+
+    const members = await verifyUsers(rawMembers);
+  // ...existing code...
+    if (members.length < 2) {
+      throw new Error("Cannot create channel. Need at least 2 active members.");
+    }
+
     // Ensure current user is included in members
     if (!members.includes(createdBy)) {
       throw new Error("Current user ID (createdBy) must be included in members array.");
     }
+
     const isGroupChat = members.length > 2;
 
+    // For 1:1 chats, check for existing channel
     if (!isGroupChat) {
       const existingChannel = await streamClient.queryChannels(
         {
@@ -29,30 +45,17 @@ export const useCreateNewChat = () => {
       if (existingChannel.length > 0) {
         const channel = existingChannel[0];
         const channelMembers = Object.keys(channel.state.members);
-
         if (
           channelMembers.length === 2 &&
           members.every((member) => channelMembers.includes(member))
         ) {
-          console.log("Existing chat found");
           return channel;
         }
       }
     }
 
     try {
-      // Ensure all users exist in Stream Chat before creating the channel (via backend API)
-      const usersToUpsert = members.map((id) => ({ id }));
-      const upsertRes = await fetch("/api/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ users: usersToUpsert }),
-      });
-      if (!upsertRes.ok) {
-        const err = await upsertRes.json();
-        throw new Error("User upsert failed: " + (err.error || upsertRes.status));
-      }
-
+      // Just create the channel; do not upsert users automatically
       const channelId = isGroupChat
         ? `group-${Date.now()}`
         : `chat-${members.slice().sort().join('-').slice(0, 50)}`;
@@ -71,22 +74,19 @@ export const useCreateNewChat = () => {
           groupName || `New Group Chat (${members.length} members)`;
       }
 
+      // ...existing code...
+
       const channel = streamClient.channel(
-        isGroupChat ? 'team' : 'messaging',
+        'messaging',
         channelId,
         channelData
       );
 
-      await channel.watch({
-        presence: true,
-      });
-
-      console.log("Channel type:", typeof channel);
-      console.log("Channel constructor:", channel.constructor.name);
-      console.log("Channel object:", channel);
+      await channel.watch({ presence: true });
 
       return channel;
     } catch (error) {
+      console.error('[CreateChat] Channel creation error:', error);
       throw error;
     }
   };

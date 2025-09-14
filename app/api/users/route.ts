@@ -7,6 +7,13 @@ import { api } from "@/convex/_generated/api";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
+  // Clerk authentication
+  const { getAuth } = await import("@clerk/nextjs/server");
+  const auth = getAuth(request);
+  if (!auth || !auth.userId) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   // Fetch users from Convex
   const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL || "https://blessed-squirrel-286.convex.cloud";
   const convex = new ConvexHttpClient(convexUrl);
@@ -24,6 +31,13 @@ import { NextResponse } from "next/server";
 import { StreamChat } from "stream-chat";
 
 export async function POST(request: NextRequest) {
+  // Clerk authentication
+  const { getAuth } = await import("@clerk/nextjs/server");
+  const auth = getAuth(request);
+  if (!auth || !auth.userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   // Simple in-memory rate limiting (per IP, resets on server restart)
   const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
   const RATE_LIMIT_MAX = 10; // max 10 requests per window
@@ -48,6 +62,12 @@ export async function POST(request: NextRequest) {
   const users = body.users;
   if (!Array.isArray(users)) {
     return NextResponse.json({ error: "Missing users array" }, { status: 400 });
+  }
+
+  // Only allow upserting the authenticated Clerk user
+  const upsertIds = users.map(u => u.id);
+  if (upsertIds.length !== 1 || upsertIds[0] !== auth.userId) {
+    return NextResponse.json({ error: "You can only upsert your own user." }, { status: 403 });
   }
 
   const streamApiKey = process.env.STREAM_API_KEY;

@@ -57,10 +57,11 @@ export function NewChatDialog({ children, onChatCreated }: { children: React.Rea
       const totalMambers = selectedUsers.length + 1; // +1 for the current user
       const isGroupChat = totalMambers > 2;
 
+      // Use Stream user IDs (UserId) for chat creation
       const channel: Channel = await createNewChat({
         members: [
           user?.id as string,
-          ...selectedUsers.map((user) => user._id),
+          ...selectedUsers.map((user) => user.UserId),
         ],
         createdBy: user?.id as string,
         groupName: isGroupChat ? groupName.trim() || undefined : undefined,
@@ -111,7 +112,7 @@ export function NewChatDialog({ children, onChatCreated }: { children: React.Rea
                     alt={user.name || "User"}
                     width={28}
                     height={28}
-                    className="h-6 w-6 rounded-full object-cover"
+                    className="w-6 h-auto rounded-full object-cover"
                   />
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium text-foreground truncate">

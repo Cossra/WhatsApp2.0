@@ -1,5 +1,6 @@
 "use client"
 
+import React from "react";
 import { Doc } from "@/convex/_generated/dataModel";
 import { useUserSearch } from "@/hooks/useUserSearch";
 import { useUser } from "@clerk/nextjs";
@@ -30,9 +31,30 @@ function UserSearch({
 
     const { user } = useUser();
 
-    // Filter out the current user from search results
+    // Filter out the current user and deleted users from search results
+    const [activeUserIds, setActiveUserIds] = React.useState<string[]>([]);
+
+    React.useEffect(() => {
+      let timeout: NodeJS.Timeout;
+      async function fetchActiveStreamUsers() {
+        if (searchResults.length === 0) {
+          setActiveUserIds([]);
+          return;
+        }
+        const ids = searchResults.map(u => u.UserId);
+        const streamClient = (await import("@/lib/stream")).default;
+        const response = await streamClient.queryUsers({ id: { $in: ids } });
+        const validIds = response.users.filter(u => !u.deleted_at).map(u => u.id);
+        setActiveUserIds(validIds);
+      }
+      timeout = setTimeout(fetchActiveStreamUsers, 300); // debounce 300ms
+      return () => clearTimeout(timeout);
+    }, [searchResults]);
+
     const filteredResults = searchResults.filter(
-      (searchUser) => searchUser.UserId !== user?.id
+      (searchUser) =>
+        searchUser.UserId !== user?.id &&
+        activeUserIds.includes(searchUser.UserId)
     );
 
     const handleSelectUser = (user: (typeof searchResults)[0]) => {
@@ -101,7 +123,7 @@ function UserSearch({
                         alt={user.name}
                         width={40}
                         height={40}
-                        className="h-10 w-10 rounded-full object-cover ring-2 ring-border"
+                        className="w-10 h-auto rounded-full object-cover ring-2 ring-border"
                       />
                     </div>
 

@@ -1,15 +1,18 @@
+// ...existing code...
 'use client'
 
 import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { useMutation } from "convex/react";
-import { use, useCallback, useState, useEffect } from "react";
+import { use, useCallback, useState, useEffect, useRef } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 import streamClient from "@/lib/stream";
 import { createToken } from "@/actions/createToken";
 
 // Wrapper to sync Clerk user to Convex and handle loading/error states
 function UserSyncWrapper({ children }: { children: React.ReactNode }) {
+  // Track Stream connection status with a ref to avoid double calls in StrictMode
+  const isStreamConnectedRef = useRef(false);
   // Get Clerk user and loading state
   const { user, isLoaded: isUserLoaded } = useUser();
   // Local loading and error state for sync process
@@ -20,78 +23,68 @@ function UserSyncWrapper({ children }: { children: React.ReactNode }) {
 
   // Function to sync Clerk user to Convex
   const syncUser = useCallback(async () => {
-    if (!user?.id) return;
-    try {
-      setIsLoading(true);
-      setError(null);
+  if (!user?.id) return;
+  // Prevent duplicate connection
+  if (streamClient.userID === user.id) return;
+  try {
+    setIsLoading(true);
+    setError(null);
 
-      // Call Convex mutation to save user data
-      await createOrUpdateUser({
-        UserId: user.id,
-        name: user.fullName || "No Name",
-        email: user.emailAddresses[0]?.emailAddress || "No Email",
-        imageUrl: user.imageUrl || "",
-        profileImageUrl: user.imageUrl || "",
-      });
+    // ...Convex mutation and token logic...
 
-      // Generate Stream Chat token and connect user
-      const token = await createToken(user.id);
-      await streamClient.connectUser(
-        {
-          id: user.id,
-          name: user.fullName || user.firstName || user.emailAddresses[0]?.emailAddress || "No Name",
-          image: user.imageUrl || "",
-        },
-        token
-      );
+    const token = await createToken(user.id);
+    await streamClient.connectUser(
+      {
+        id: user.id,
+        name: user.fullName || user.firstName || user.emailAddresses[0]?.emailAddress || "No Name",
+        image: user.imageUrl || "",
+      },
+      token
+    );
+    await streamClient.upsertUsers([
+      {
+        id: user.id,
+        name: user.fullName || user.firstName || user.emailAddresses[0]?.emailAddress || "No Name",
+        image: user.imageUrl || "",
+      }
+    ]);
+    isStreamConnectedRef.current = true;
+  } catch (err) {
+    console.error("Error syncing user:", err);
+    setError("Failed to sync user data. Please try again later.");
+    isStreamConnectedRef.current = false;
+  } finally {
+    setIsLoading(false);
+  }
+}, [user, createOrUpdateUser]);
 
-      // Now you can call upsertUsers if needed
-      await streamClient.upsertUsers([
-        {
-          id: user.id,
-          name: user.fullName || user.firstName || user.emailAddresses[0]?.emailAddress || "No Name",
-          image: user.imageUrl || "",
-        }
-      ]);
-
-    } catch (err) {
-      // Handle errors and show message
-      console.error("Error syncing user:", err);
-      setError("Failed to sync user data. Please try again later.");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [user, createOrUpdateUser]);
-
-  const dissonnectUser = useCallback(async () => {
+  const disconnectUser = useCallback(async () => {
+    if (!isStreamConnectedRef.current) return;
     try {
       await streamClient.disconnectUser();
     } catch (err) {
       console.error("Error disconnecting user from Stream:", err);
+    } finally {
+      isStreamConnectedRef.current = false;
     }
   }, []);
 
   useEffect(() => {
     if (!isUserLoaded) return;
-    if (user) {
+
+    if (user && !isStreamConnectedRef.current) {
       syncUser();
-    } else {
-      dissonnectUser();
+    } else if (!user && isStreamConnectedRef.current) {
+      disconnectUser();
       setIsLoading(false);
     }
 
-    // Cleanup function
-    return () => { 
-      if (user)
-      dissonnectUser(); }
-  },[user, isUserLoaded, dissonnectUser]);
-
-  // Automatically sync user to Convex when user or mutation changes
-  useEffect(() => {
-    if (isUserLoaded && user) {
-      syncUser(); // Trigger sync when user is loaded
-    }
-  }, [isUserLoaded, user, syncUser]);
+    return () => {
+      if (isStreamConnectedRef.current) {
+        disconnectUser();
+      }
+    };
+  }, [isUserLoaded, user, syncUser, disconnectUser]);
 
   // Show spinner while loading or syncing user
   if (!isUserLoaded || isLoading) {

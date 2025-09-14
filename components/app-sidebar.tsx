@@ -53,7 +53,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   };
 
 
-  // Optionally log channels for debugging
+  // log channels for debugging
   React.useEffect(() => {
     async function logChannels() {
       try { 
@@ -61,14 +61,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           members: { $in: [user?.id as string] },
           type: { $in: ['messaging', 'team'] },
         });
-        console.log('Sidebar ChannelList fetched channels:', channels.map(c => ({
-          id: c.id,
-          type: c.type,
-          members: Object.keys(c.state.members),
-          data: c.data,
-        })));
+        // Uncomment for channel debugging:
+        // console.log('Sidebar ChannelList fetched channels:', channels.map(c => ({
+        //   id: c.id,
+        //   type: c.type,
+        //   members: Object.keys(c.state.members),
+        //   data: c.data,
+        // })));
       } catch (err) {
-        console.error('Error fetching channels for sidebar:', err);
+        // console.error('Error fetching channels for sidebar:', err);
       }
     }
     if (user?.id && client) {
