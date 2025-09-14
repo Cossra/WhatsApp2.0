@@ -5,6 +5,7 @@ import {
   ClerkProvider,
 } from '@clerk/nextjs'
 import ConvexClientProvider from "@/components/ui/ConvexClientProvider";
+import { useStreamAuth } from "@/hooks/useStreamAuth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // useStreamAuth(); // Commenting out the useStreamAuth call
   return (
     <html lang="en">
       <body

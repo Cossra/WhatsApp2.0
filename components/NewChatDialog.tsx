@@ -19,20 +19,22 @@ import UserSearch from "./userSearch";
 import Image from "next/image";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+// ...existing code...
+
+
 import type { Channel } from "stream-chat";
 
+export function NewChatDialog({ children, onChatCreated }: { children: React.ReactNode; onChatCreated?: (channel: Channel) => void }) {
 
-export function NewChatDialog( { children }: { children: React.ReactNode } ) {
+    // Accept onChatCreated prop for sidebar refresh
     const [open, setOpen] = useState(false);
     const [selectedUsers, setSelectedUsers] = useState<Doc<"users">[]>([]);
     const [groupName, setGroupName] = useState("");
     const createNewChat = useCreateNewChat();
     const { user } = useUser();
     const {setActiveChannel} = useChatContext();
-    
 
     const handleSelectUser = (user: Doc<"users">) => {
-
         if (!selectedUsers.find((u) => u._id === user._id)) {
             setSelectedUsers((prev) => [...prev, user]);
         }
@@ -56,17 +58,18 @@ export function NewChatDialog( { children }: { children: React.ReactNode } ) {
       const isGroupChat = totalMambers > 2;
 
       const channel: Channel = await createNewChat({
-  members: [
-    user?.id as string,
-    ...selectedUsers.map((user) => user._id),
-  ],
-  createdBy: user?.id as string,
-  groupName: isGroupChat ? groupName.trim() || undefined : undefined,
-});
-setActiveChannel(channel);
-
+        members: [
+          user?.id as string,
+          ...selectedUsers.map((user) => user._id),
+        ],
+        createdBy: user?.id as string,
+        groupName: isGroupChat ? groupName.trim() || undefined : undefined,
+      });
       setActiveChannel(channel);
-
+      // Call sidebar refresh after chat creation
+      if (typeof onChatCreated === 'function') {
+        onChatCreated(channel);
+      }
       // Close dialog and reset state
       setOpen(false);
       setSelectedUsers([]);

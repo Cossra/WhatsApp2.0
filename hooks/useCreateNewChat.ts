@@ -11,6 +11,10 @@ export const useCreateNewChat = () => {
     createdBy: string;
     groupName?: string;
   }): Promise<Channel> => {
+    // Ensure current user is included in members
+    if (!members.includes(createdBy)) {
+      throw new Error("Current user ID (createdBy) must be included in members array.");
+    }
     const isGroupChat = members.length > 2;
 
     if (!isGroupChat) {
@@ -37,6 +41,18 @@ export const useCreateNewChat = () => {
     }
 
     try {
+      // Ensure all users exist in Stream Chat before creating the channel (via backend API)
+      const usersToUpsert = members.map((id) => ({ id }));
+      const upsertRes = await fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ users: usersToUpsert }),
+      });
+      if (!upsertRes.ok) {
+        const err = await upsertRes.json();
+        throw new Error("User upsert failed: " + (err.error || upsertRes.status));
+      }
+
       const channelId = isGroupChat
         ? `group-${Date.now()}`
         : `chat-${members.slice().sort().join('-').slice(0, 50)}`;
