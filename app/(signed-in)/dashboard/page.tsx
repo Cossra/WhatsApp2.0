@@ -18,7 +18,9 @@ function Dashboard() {
   };
 
   const handleLeaveChat = async () => {
-    console.log("Leaving chat...");
+    if (!channel || !user?.id) return;
+    await channel.removeMembers([user.id]);
+    setActiveChannel(undefined);
   };
 
   return <div className="flex flex-col w-full flex-1">

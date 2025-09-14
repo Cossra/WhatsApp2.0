@@ -19,6 +19,7 @@ import UserSearch from "./userSearch";
 import Image from "next/image";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import type { Channel } from "stream-chat";
 
 
 export function NewChatDialog( { children }: { children: React.ReactNode } ) {
@@ -54,16 +55,17 @@ export function NewChatDialog( { children }: { children: React.ReactNode } ) {
       const totalMambers = selectedUsers.length + 1; // +1 for the current user
       const isGroupChat = totalMambers > 2;
 
-      const channel = await createNewChat({
-        members: [
-          user?.id as string,
-          ...selectedUsers.map((user) => user._id),
-        ],
-        createdBy: user?.id as string,
-        groupName: isGroupChat ? groupName.trim() || undefined : undefined,
-      });
+      const channel: Channel = await createNewChat({
+  members: [
+    user?.id as string,
+    ...selectedUsers.map((user) => user._id),
+  ],
+  createdBy: user?.id as string,
+  groupName: isGroupChat ? groupName.trim() || undefined : undefined,
+});
+setActiveChannel(channel);
 
-      // setActiveChannel(channel);
+      setActiveChannel(channel);
 
       // Close dialog and reset state
       setOpen(false);
