@@ -2,12 +2,23 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
-[![Convex](https://img.shields.io/badge/Backend-Convex-blue?logo=convex)](https://convex.dev/)
-[![Clerk](https://img.shields.io/badge/Auth-Clerk-purple?logo=clerk)](https://clerk.com/)
 [![Stream](https://img.shields.io/badge/Chat-Stream-FF6B6B?logo=streamlit)](https://getstream.io/)
 [![TailwindCSS](https://img.shields.io/badge/Styling-TailwindCSS-06B6D4?logo=tailwind-css)](https://tailwindcss.com/)
 
-A **production-grade real-time messaging and video calling app** inspired by WhatsApp. Built with **Next.js 15**, **TypeScript**, **Convex**, and **Stream APIs**, featuring Google OAuth secure authentication, and scalable architecture.
+**Production-ready messaging and video calling application inspired by WhatsApp**
+
+- Real-time chat with typing indicators and read receipts  
+- Secure authentication with Google OAuth (Clerk)  
+- Group chat creation and management  
+- One-on-one video calls powered by Stream  
+- Scalable backend built with Convex  
+- Modern, responsive UI with TailwindCSS  
+
+---
+
+**AS a user**  
+I WANT to send messages and make video calls in real time  
+SO THAT I can stay connected seamlessly across devices
 
 ---
 
@@ -22,7 +33,7 @@ A **production-grade real-time messaging and video calling app** inspired by Wha
 ### 3. Landing Page & Dropdown
 ![Landing Page](attachments/landingPage-userDropDown.png)
 
-### 4. Convex Users Table
+### 4. Convex Database Admin Dashboard
 ![Convex Users Table](attachments/convexUserDb.png)
 
 ---
@@ -54,21 +65,8 @@ Happy coding, and enjoy! 🚀 **[Robert Coss](https://linkedin.com/in/robert-cos
 
 ---
 
-## ✨ Features
-- 💬 **Real-time messaging** with typing indicators & read receipts
-- 📹 **One-on-one and group video calls** powered by Stream
-- 🔐 **Secure user authentication** using Clerk
-- 🗂 **Group chat creation & management**
-- ⚡ **Fast, scalable backend** with Convex
-- 🎨 **Modern, responsive UI** with TailwindCSS
-
----
-
-## 🌟 Final Notes
-
-This project was built to **showcase my skills as a full-stack developer** and demonstrate how cutting-edge tech stacks can come together to build something both **practical and scalable**.
-
-I wanted to go beyond just another "clone" by integrating:
-
 If you're checking out the repo, take it for a spin — send a few messages, create a group chat, hop on a video call.  
 Who knows? You might even find yourself using it like a real app. 😎
+
+## License
+This project is licensed under the [MIT License](./LICENSE).
