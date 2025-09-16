@@ -38,7 +38,7 @@ function layout({ children }: { children:
             className="font-geist-sans text-2xl font-bold tracking-tight transition-colors duration-200"
           >
             <span className="bg-gradient-to-r from-blue-600 via-purple-500 to-pink-400 bg-clip-text text-transparent">
-              TeleConnect
+              WhatsApp 2.0
             </span>
           </Link>
         </header>

@@ -1,3 +1,9 @@
+/* Ensure gradient text works in all browsers */
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 @import "tailwindcss";
 @import "tw-animate-css";
 

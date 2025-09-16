@@ -16,7 +16,10 @@ export default function Home() {
       <Header />
   <main className="flex-1 flex flex-col items-center justify-start px-4 mt-16">
         <h1 className="text-5xl sm:text-6xl font-geist-sans font-extrabold text-center mb-4 tracking-tight">
-          <span className="bg-gradient-to-r from-blue-600 via-purple-500 to-pink-400 bg-clip-text text-transparent">
+          <span
+            className="bg-gradient-to-r from-blue-600 via-purple-500 to-pink-400 bg-clip-text"
+            
+          >
             Connect Instantly,<br />Chat Smarter
           </span>
         </h1>
