@@ -7,18 +7,34 @@
 [![Stream](https://img.shields.io/badge/Chat-Stream-FF6B6B?logo=streamlit)](https://getstream.io/)
 [![TailwindCSS](https://img.shields.io/badge/Styling-TailwindCSS-06B6D4?logo=tailwind-css)](https://tailwindcss.com/)
 
-A **production-grade real-time messaging and video calling app** inspired by WhatsApp. Built with **Next.js 15**, **TypeScript**, **Convex**, and **Stream APIs**, featuring secure authentication, optimized performance, and scalable architecture.
+A **production-grade real-time messaging and video calling app** inspired by WhatsApp. Built with **Next.js 15**, **TypeScript**, **Convex**, and **Stream APIs**, featuring Google OAuth secure authentication, and scalable architecture.
+
+---
+
+## 📸 Demo Screenshots
+
+### 1. Chat Interface
+![Chat Interface](attachments/messageUserTest.png)
+
+### 2. User Search and Chat Functionality
+![User Search and Chat](attachments/searchUserTest.png)
+
+### 3. Landing Page & Dropdown
+![Landing Page](attachments/landingPage-userDropDown.png)
+
+### 4. Convex Users Table
+![Convex Users Table](attachments/convexUserDb.png)
 
 ---
 
 ## 🚀 Quick Start
 
-> ⚠️ **Requirements:**  
+>**Requirements:**  
 > Make sure you have [Node.js](https://nodejs.org/en/) 18+, [pnpm](https://pnpm.io/), and a [Convex](https://www.convex.dev/) account set up.
 
 ---
 
-### **How to Run it**
+### **How to Run**
 
 Once everything is installed, **you must run two commands in separate terminals** to launch the app:
 
@@ -35,16 +51,16 @@ Once everything is installed, **you must run two commands in separate terminals*
 Happy coding, and enjoy! 🚀 **[Robert Coss](https://linkedin.com/in/robert-coss)**
 
 </div>
+
 ---
 
 ## ✨ Features
-- 💬 **Real-time messaging** with typing indicators & read receipts  
-- 📹 **One-on-one and group video calls** powered by Stream  
-- 🔐 **Secure user authentication** using Clerk  
-- 🗂 **Group chat creation & management**  
-- ⚡ **Fast, scalable backend** with Convex  
-- 🎨 **Modern, responsive UI** with TailwindCSS  
-- ☁️ **Serverless deployment** ready for production
+- 💬 **Real-time messaging** with typing indicators & read receipts
+- 📹 **One-on-one and group video calls** powered by Stream
+- 🔐 **Secure user authentication** using Clerk
+- 🗂 **Group chat creation & management**
+- ⚡ **Fast, scalable backend** with Convex
+- 🎨 **Modern, responsive UI** with TailwindCSS
 
 ---
 
@@ -53,12 +69,6 @@ Happy coding, and enjoy! 🚀 **[Robert Coss](https://linkedin.com/in/robert-cos
 This project was built to **showcase my skills as a full-stack developer** and demonstrate how cutting-edge tech stacks can come together to build something both **practical and scalable**.
 
 I wanted to go beyond just another "clone" by integrating:
-- **Real-time database operations**  
-- **Secure authentication flows**  
-- **Video conferencing capabilities**  
-- **A polished, production-grade user experience**
 
 If you're checking out the repo, take it for a spin — send a few messages, create a group chat, hop on a video call.  
 Who knows? You might even find yourself using it like a real app. 😎
-
----
