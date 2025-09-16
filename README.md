@@ -65,8 +65,5 @@ Happy coding, and enjoy! 🚀 **[Robert Coss](https://linkedin.com/in/robert-cos
 
 ---
 
-If you're checking out the repo, take it for a spin — send a few messages, create a group chat, hop on a video call.  
-Who knows? You might even find yourself using it like a real app. 😎
-
 ## License
 This project is licensed under the [MIT License](./LICENSE).
